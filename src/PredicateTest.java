@@ -12,7 +12,7 @@ public class PredicateTest {
         }
     };
     public static void main(String[] args) {
-        List<String> names = List.<String>of("abc", "cde", "def");
+        List<String> names = List.of("abc", "cde", "def");
         names.forEach(s -> String.format("test %s", s));
         names.forEach(String::format);
 
