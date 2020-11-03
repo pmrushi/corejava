@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class MethodReferenceStaticTest {
@@ -27,12 +28,14 @@ public class MethodReferenceStaticTest {
         numbers.forEach(System.out::println);
 
         // anonymous class
-        List<Integer> integers = numbers.stream().map(new Function<String, Integer>() {
-            @Override
-            public Integer apply(String s) {
-                return Integer.parseInt(s);
-            }
-        }).collect(Collectors.toList());
+        List<Integer> integers = numbers.stream()
+                .map(new Function<String, Integer>() {
+                    @Override
+                    public Integer apply(String s) {
+                        return Integer.parseInt(s);
+                    }
+                })
+                .collect(Collectors.toList());
         System.out.println("anonymous :" + integers);
 
         // lambda expression
@@ -49,14 +52,21 @@ public class MethodReferenceStaticTest {
 
         // anonymous class
         List<Integer> collect = integers.stream()
-                .filter(s -> s % 2 == 0)
+                .filter(new Predicate<Integer>() {
+                    @Override
+                    public boolean test(Integer s) {
+                        return s % 2 == 0;
+                    }
+                })
                 .collect(Collectors.toList());
         System.out.println("anonymous1 :" + collect);
+
         // lambda expression
         List<Integer> collect1 = integers.stream()
                 .filter(s -> s % 2 == 0)
                 .collect(Collectors.toList());
         System.out.println("lambda1 :" + collect1);
+
         // method reference
         List<Integer> collect2 = integers.stream()
                 .filter(MethodReferenceStaticTest::isEven)

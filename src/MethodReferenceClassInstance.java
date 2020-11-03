@@ -32,8 +32,4 @@ public class MethodReferenceClassInstance {
         System.out.println(sortedAlt);
 
     }
-
-    private static boolean test(String s) {
-        return s.startsWith("a");
-    }
 }
