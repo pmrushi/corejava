@@ -1,5 +1,8 @@
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class MethodReferenceClassInstance {
@@ -17,9 +20,17 @@ public class MethodReferenceClassInstance {
 
         List<String> strings = Arrays.asList("how", "to", "do", "in", "java", "dot", "com");
 
+        BiFunction<Long, String, Integer> biFunction = MethodReferenceClassInstance::apply;
+
+
         // lambda expression
         List<String> sorted = strings.stream()
-                .sorted((s1, s2) -> s1.compareTo(s2))
+                .sorted(new Comparator<String>() {
+                    @Override
+                    public int compare(String s1, String s2) {
+                        return s1.compareTo(s2);
+                    }
+                })
                 .collect(Collectors.toList());
         System.out.println(sorted);
 
@@ -29,7 +40,26 @@ public class MethodReferenceClassInstance {
                 .sorted(String::compareTo)
                 .collect(Collectors.toList());
 
-        System.out.println(sortedAlt);
+        // revere order
+        Comparator<String> compareTo = String::compareTo;
+        List<String> reverseSorted = strings.stream()
+                .sorted(compareTo.reversed())
+                .collect(Collectors.toList());
+        System.out.println(reverseSorted);
 
+        List<String> revSort = strings.stream()
+                .sorted(((Comparator<String>) String::compareTo).reversed())
+                .collect(Collectors.toList());
+        System.out.println("rev sort : " + revSort);
+
+        List<String> comparatorComparing = strings.stream()
+                .sorted(Comparator.comparing(s -> s))
+                .collect(Collectors.toList());
+        System.out.println("comparatorComparing : " + comparatorComparing);
+
+    }
+
+    private static Integer apply(Long aLong, String s) {
+        return s.compareTo(String.valueOf(aLong));
     }
 }

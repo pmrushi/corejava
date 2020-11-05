@@ -8,7 +8,6 @@ import java.util.stream.Stream;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
-
 class Result {
 
     /*
@@ -24,12 +23,12 @@ class Result {
      */
 
     public static List<String> fetchItemsToDisplay(List<List<String>> items,
-                                                   int sortParameter, int sortOrder, int itemsPerPage, int pageNumber) {
+                                                   int sortParameter, int sortOrder,
+                                                   int itemsPerPage, int pageNumber) {
         // System.out.println(sortParameter + " -- " + sortOrder + " -- " + itemsPerPage + " -- " + pageNumber);
         int start = pageNumber == 0 ? 0 : (pageNumber * itemsPerPage);
         return items.stream()
                 .sorted((l1, l2) -> {
-
                     if (sortOrder == 0) {
                         if (sortParameter == 0) {
                             return l1.get(sortParameter).compareTo(l2.get(sortParameter));
@@ -43,7 +42,6 @@ class Result {
                             return Integer.valueOf(l2.get(sortParameter)).compareTo(Integer.valueOf(l1.get(sortParameter)));
                         }
                     }
-
                 })
                 .map(s -> s.get(0))
                 .skip(start)
@@ -52,7 +50,7 @@ class Result {
     }
 }
 
-public class Solution {
+public class WebPaginationSolution {
     public static void main(String[] args) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
